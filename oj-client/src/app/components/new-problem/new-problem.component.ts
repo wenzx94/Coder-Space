@@ -22,7 +22,8 @@ export class NewProblemComponent implements OnInit {
   }
 
   addProblem(): void {
-    this.dataService.addProblem(this.newProblem);
+    this.dataService.addProblem(this.newProblem)
+      .catch(error => console.log(error));
     this.newProblem = Object.assign({}, DEFAULT_PROBLEM);
   }
 

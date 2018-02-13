@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
-import { DataService } from './services/data/data.service'
+import { DataService } from './services/data/data.service';
+import {CollaborationService} from './services/Collaboration/collaboration.service';
 
 import {Routing} from './app.routes';
 
@@ -11,6 +13,7 @@ import { ProblemListComponent } from './components/problem-list/problem-list.com
 import { ProblemDetailComponent } from './components/problem-detail/problem-detail.component';
 import { NewProblemComponent } from './components/new-problem/new-problem.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 
 @NgModule({
@@ -19,15 +22,18 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     ProblemListComponent,
     ProblemDetailComponent,
     NewProblemComponent,
-    NavbarComponent
+    NavbarComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
     Routing,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     DataService,
+    CollaborationService
   ],
   bootstrap: [AppComponent]
 })
