@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { CollaborationService } from '../../services/Collaboration/collaboration.service';
+import { DataService } from '../../services/data/data.service'
 
 declare var ace: any;
 @Component({
@@ -13,6 +14,7 @@ export class EditorComponent implements OnInit {
   sessionId: string;
   language: string = 'Java';
   languages: string[] = ['Java', 'Python'];
+  output: string = '';
   defaultContent = {
     'Java': `public class Example {
  public static void main(String[] args) {
@@ -24,7 +26,8 @@ export class EditorComponent implements OnInit {
   };
 
   constructor(private collaboration: CollaborationService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private data: DataService ) { }
 
   ngOnInit() {
     this.route.params
@@ -64,6 +67,7 @@ export class EditorComponent implements OnInit {
   resetEditor(): void {
     this.editor.setValue(this.defaultContent[this.language]);
     this.editor.getSession().setMode('ace/mode/' + this.language.toLowerCase());
+    this.output = '';
   }
 
   setLanguage(language: string): void {
@@ -73,7 +77,13 @@ export class EditorComponent implements OnInit {
 
   submit(): void {
     const userCodes = this.editor.getValue();
-    console.log(userCodes);
+    //console.log(userCodes);
+    const data = {
+      userCodes: userCodes,
+      lang: this.language.toLowerCase()
+    };
+    this.data.buildAndRun(data)
+      .then(res => this.output = res.text);
   }
 
 }

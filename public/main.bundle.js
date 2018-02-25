@@ -185,7 +185,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/editor/editor.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<section>\n  <header class=\"editor-header\">\n    <select class=\"form-control pull-left lang-select\" name=\"language\"\n     [(ngModel)]=\"language\" (change)=\"setLanguage(language)\">\n     <option *ngFor=\"let language of languages\" [value]=\"language\">\n       {{language}}\n     </option>\n    </select>\n    <!--reset button -->\n    <!-- Button trigger modal -->\n    <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#myModal\">\n      Reset\n    </button>\n\n    <!-- Modal -->\n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Are you sure</h5>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            You will lose current code in the editor, are you sure?\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancel</button>\n            <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\"\n            (click)=\"resetEditor()\">Reset</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n  <div class=\"row\">\n    <div id=\"editor\">\n    </div>\n  </div><!-- This is the body -->\n  <footer class=\"editor-footer\">\n      <button type=\"button\" class=\"btn btn-success pull-right\" \n      (click)=\"submit()\">Submit Solution</button>\n  </footer>\n</section>"
+module.exports = "<section>\n  <header class=\"editor-header\">\n    <select class=\"form-control pull-left lang-select\" name=\"language\"\n     [(ngModel)]=\"language\" (change)=\"setLanguage(language)\">\n     <option *ngFor=\"let language of languages\" [value]=\"language\">\n       {{language}}\n     </option>\n    </select>\n    <!--reset button -->\n    <!-- Button trigger modal -->\n    <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#myModal\">\n      Reset\n    </button>\n\n    <!-- Modal -->\n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Are you sure</h5>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            You will lose current code in the editor, are you sure?\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancel</button>\n            <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\"\n            (click)=\"resetEditor()\">Reset</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n  <div class=\"row\">\n    <div id=\"editor\">\n    </div>\n  </div><!-- This is the body -->\n  <div class=\"row\">\n    {{output}}\n  </div>\n  <footer class=\"editor-footer\">\n      <button type=\"button\" class=\"btn btn-success pull-right\" \n      (click)=\"submit()\">Submit Solution</button>\n  </footer>\n</section>"
 
 /***/ }),
 
@@ -207,12 +207,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
 var collaboration_service_1 = __webpack_require__("../../../../../src/app/services/Collaboration/collaboration.service.ts");
+var data_service_1 = __webpack_require__("../../../../../src/app/services/data/data.service.ts");
 var EditorComponent = /** @class */ (function () {
-    function EditorComponent(collaboration, route) {
+    function EditorComponent(collaboration, route, data) {
         this.collaboration = collaboration;
         this.route = route;
+        this.data = data;
         this.language = 'Java';
         this.languages = ['Java', 'Python'];
+        this.output = '';
         this.defaultContent = {
             'Java': "public class Example {\n public static void main(String[] args) {\n     // Type your Java code here\n }",
             'Python': "class Solution:\n   def example():\n       # Write your Python code here"
@@ -251,14 +254,22 @@ var EditorComponent = /** @class */ (function () {
     EditorComponent.prototype.resetEditor = function () {
         this.editor.setValue(this.defaultContent[this.language]);
         this.editor.getSession().setMode('ace/mode/' + this.language.toLowerCase());
+        this.output = '';
     };
     EditorComponent.prototype.setLanguage = function (language) {
         this.language = language;
         this.resetEditor();
     };
     EditorComponent.prototype.submit = function () {
+        var _this = this;
         var userCodes = this.editor.getValue();
-        console.log(userCodes);
+        //console.log(userCodes);
+        var data = {
+            userCodes: userCodes,
+            lang: this.language.toLowerCase()
+        };
+        this.data.buildAndRun(data)
+            .then(function (res) { return _this.output = res.text; });
     };
     EditorComponent = __decorate([
         core_1.Component({
@@ -267,7 +278,8 @@ var EditorComponent = /** @class */ (function () {
             styles: [__webpack_require__("../../../../../src/app/components/editor/editor.component.css")]
         }),
         __metadata("design:paramtypes", [collaboration_service_1.CollaborationService,
-            router_1.ActivatedRoute])
+            router_1.ActivatedRoute,
+            data_service_1.DataService])
     ], EditorComponent);
     return EditorComponent;
 }());
@@ -319,7 +331,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent() {
-        this.title = "CatchaCode";
+        this.title = "Coder Space";
     }
     NavbarComponent.prototype.ngOnInit = function () {
     };
@@ -694,6 +706,16 @@ var DataService = /** @class */ (function () {
     DataService.prototype.handleError = function (error) {
         console.error('An error occurred', error);
         return Promise.reject(error.body || error);
+    };
+    DataService.prototype.buildAndRun = function (data) {
+        var headers = new http_1.HttpHeaders().set('content-type', 'application/json');
+        return this.http.post('/api/v1/build_and_run', data, { headers: headers })
+            .toPromise()
+            .then(function (res) {
+            console.log(res);
+            return res;
+        })
+            .catch(this.handleError);
     };
     DataService = __decorate([
         core_1.Injectable(),

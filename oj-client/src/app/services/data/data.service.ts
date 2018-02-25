@@ -47,4 +47,15 @@ export class DataService {
     console.error('An error occurred', error)
     return Promise.reject(error.body || error);
   }
+
+  buildAndRun(data): Promise<any> {
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    return this.http.post('/api/v1/build_and_run', data, {headers})
+      .toPromise()
+      .then((res: Response) => {
+        console.log(res);
+        return res;
+      })
+      .catch(this.handleError);
+  }
 }
