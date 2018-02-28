@@ -25,11 +25,25 @@ export class DataService {
     return this._problemSource.asObservable();
   }
 
+  getProblemsByDiff(difficulty: String): Promise<Problem[]> {
+    return this.http.get(`api/v1/problems/difficulty/${difficulty}`)
+      .toPromise()
+      .then((res: any) => res)
+      .catch(this.handleError);
+  }
+
   getProblem(id: number): Promise<Problem> {
     return this.http.get(`api/v1/problems/${id}`)
       .toPromise()
       .then((res: Response) => res)
       .catch(this.handleError);
+  }
+
+  searchProblems(keywords: String): Promise<Problem[]> {
+    return this.http.get(`api/v1/problems/keywords/${keywords}`)
+    .toPromise()
+    .then((res: Response) => res)
+    .catch(this.handleError);
   }
 
   addProblem(problem: Problem): Promise<Problem> {

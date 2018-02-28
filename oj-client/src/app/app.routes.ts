@@ -13,9 +13,18 @@ const routes: Routes = [
         component: ProblemListComponent
     },
     {
+        path: 'problems/difficulty/:diff',
+        component: ProblemListComponent
+    },
+    {
+        path: 'problems/keywords/:keywords',
+        component: ProblemListComponent
+    },
+    {
         path: 'problems/:id',                   //this ":" means id is a variable
         component: ProblemDetailComponent
     },
+    
     {
         path: '**',
         redirectTo: 'problems'

@@ -151,6 +151,14 @@ var routes = [
         component: problem_list_component_1.ProblemListComponent
     },
     {
+        path: 'problems/difficulty/:diff',
+        component: problem_list_component_1.ProblemListComponent
+    },
+    {
+        path: 'problems/keywords/:keywords',
+        component: problem_list_component_1.ProblemListComponent
+    },
+    {
         path: 'problems/:id',
         component: problem_detail_component_1.ProblemDetailComponent
     },
@@ -217,7 +225,7 @@ var EditorComponent = /** @class */ (function () {
         this.languages = ['Java', 'Python'];
         this.output = '';
         this.defaultContent = {
-            'Java': "public class Example {\n public static void main(String[] args) {\n     // Type your Java code here\n }",
+            'Java': "public class Example {\n public static void main(String[] args) {\n     // Type your Java code here\n }\n}",
             'Python': "class Solution:\n   def example():\n       # Write your Python code here"
         };
     }
@@ -309,7 +317,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <nav class=\"navbar navbar-default\">\n    <div class=\"container-fluid\">\n      <!-- Brand and toggle get grouped for better mobile display -->\n      <div class=\"navbar-header\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n          <span class=\"sr-only\">Toggle navigation</span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n      </div>\n  \n      <!-- Collect the nav links, forms, and other content for toggling -->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <li class=\"active\"><a href=\"#\">Link <span class=\"sr-only\">(current)</span></a></li>\n          <li><a href=\"#\">Favorite</a></li>\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Difficulty <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a href=\"#\">Easy</a></li>\n              <li><a href=\"#\">Medium</a></li>\n              <li><a href=\"#\">Hard</a></li>\n              <li><a href=\"#\">Super</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a href=\"#\">Separated link</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a href=\"#\">One more separated link</a></li>\n            </ul>\n          </li>\n        </ul>\n        <form class=\"navbar-form navbar-left\">\n          <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Keywords...\">\n          </div>\n          <button type=\"submit\" class=\"btn btn-default\">Search</button>\n        </form>\n        <ul class=\"nav navbar-nav navbar-right\">\n          <li><a href=\"#\">Link</a></li>\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a href=\"#\">Action</a></li>\n              <li><a href=\"#\">Another action</a></li>\n              <li><a href=\"#\">Something else here</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a href=\"#\">Log Out</a></li>\n            </ul>\n          </li>\n        </ul>\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n  </div>"
+module.exports = "<div class=\"container\">\n    <nav class=\"navbar navbar-default\">\n    <div class=\"container-fluid\">\n      <!-- Brand and toggle get grouped for better mobile display -->\n      <div class=\"navbar-header\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n          <span class=\"sr-only\">Toggle navigation</span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n      </div>\n  \n      <!-- Collect the nav links, forms, and other content for toggling -->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <!-- <li class=\"active\"><a href=\"#\">Link <span class=\"sr-only\">(current)</span></a></li>\n          <li><a href=\"#\">Favorite</a></li> -->\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Difficulty <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a [routerLink]=\"['/problems']\">All</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a [routerLink]=\"['/problems/difficulty/easy']\">Easy</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/medium']\">Medium</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/hard']\">Hard</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/super']\">Super</a></li>\n            </ul>\n          </li>\n        </ul>\n        <form class=\"navbar-form navbar-left\">\n          <div class=\"form-group\">\n            <input name=\"keywords\" id=\"keywords\" type=\"text\" class=\"form-control\"\n             placeholder=\"Keywords...\"\n             [(ngModel)] = \"keywords\"\n             >\n          </div>\n          <button type=\"submit\" class=\"btn btn-default\" (click)=\"searchProblem()\">Search</button>\n        </form>\n        <!-- <ul class=\"nav navbar-nav navbar-right\">\n          <li><a href=\"#\">Link</a></li>\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a href=\"#\">Action</a></li>\n              <li><a href=\"#\">Another action</a></li>\n              <li><a href=\"#\">Something else here</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a href=\"#\">Log Out</a></li>\n            </ul>\n          </li>\n        </ul> -->\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n  </div>"
 
 /***/ }),
 
@@ -329,11 +337,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent() {
+    //router: Router;
+    function NavbarComponent(router) {
+        this.router = router;
         this.title = "Coder Space";
     }
     NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent.prototype.searchProblem = function () {
+        //alert(this.keywords);
+        console.log(this.keywords);
+        if (this.keywords)
+            this.router.navigate(['/problems/keywords', this.keywords]);
+        else
+            this.router.navigate(['/problems']);
     };
     NavbarComponent = __decorate([
         core_1.Component({
@@ -341,7 +360,7 @@ var NavbarComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/components/navbar/navbar.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/navbar/navbar.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [router_1.Router])
     ], NavbarComponent);
     return NavbarComponent;
 }());
@@ -538,14 +557,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js"); // add ngOnDestroy
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
 var data_service_1 = __webpack_require__("../../../../../src/app/services/data/data.service.ts");
 var ProblemListComponent = /** @class */ (function () {
-    function ProblemListComponent(dataService) {
+    function ProblemListComponent(route, dataService) {
+        this.route = route;
         this.dataService = dataService;
     }
     //add unsubscribe in ngOnDestroy
     ProblemListComponent.prototype.ngOnInit = function () {
-        this.getProblems();
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            if (params['diff']) {
+                _this.dataService.getProblemsByDiff(params['diff'])
+                    .then(function (problems) { return _this.problems = problems; });
+            }
+            else if (params['keywords']) {
+                _this.dataService.searchProblems(params['keywords'])
+                    .then(function (problems) { return _this.problems = problems; });
+            }
+            else {
+                _this.getProblems();
+            }
+        });
     };
     ProblemListComponent.prototype.getProblems = function () {
         var _this = this;
@@ -559,7 +593,8 @@ var ProblemListComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/components/problem-list/problem-list.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/problem-list/problem-list.component.css")]
         }),
-        __metadata("design:paramtypes", [data_service_1.DataService])
+        __metadata("design:paramtypes", [router_1.ActivatedRoute,
+            data_service_1.DataService])
     ], ProblemListComponent);
     return ProblemListComponent;
 }());
@@ -686,8 +721,20 @@ var DataService = /** @class */ (function () {
             .catch(this.handleError);
         return this._problemSource.asObservable();
     };
+    DataService.prototype.getProblemsByDiff = function (difficulty) {
+        return this.http.get("api/v1/problems/difficulty/" + difficulty)
+            .toPromise()
+            .then(function (res) { return res; })
+            .catch(this.handleError);
+    };
     DataService.prototype.getProblem = function (id) {
         return this.http.get("api/v1/problems/" + id)
+            .toPromise()
+            .then(function (res) { return res; })
+            .catch(this.handleError);
+    };
+    DataService.prototype.searchProblems = function (keywords) {
+        return this.http.get("api/v1/problems/keywords/" + keywords)
             .toPromise()
             .then(function (res) { return res; })
             .catch(this.handleError);

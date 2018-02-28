@@ -23,6 +23,20 @@ router.get('/problems/:id', function(req, res) {
         .then(problem => res.json(problem));
 });
 
+router.get('/problems/difficulty/:difficulty', function(req, res) {
+    const diff = req.params.difficulty;
+    console.log(diff);
+    problemService.getProblemsByDiff(diff)
+        .then(problem => res.json(problem));
+});
+
+router.get('/problems/keywords/:keywords', function(req, res) {
+    const keywords = req.params.keywords;
+    console.log(keywords);
+    problemService.searchProblem(keywords)
+        .then(problems => res.json(problems));
+});
+
 //POST /api/v1/problems
 router.post('/problems', jsonParser, function(req, res) {
     problemService.addProblem(req.body)

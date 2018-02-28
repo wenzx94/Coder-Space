@@ -71,6 +71,18 @@
         });
     }
 
+    const getProblemsByDiff = function(diff) {
+        return new Promise((resolve, reject) => {
+            ProblemModel.find({difficulty: diff}, (err, problems) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(problems);
+                }
+            });
+        });
+    }
+
     const getProblem = function(id) {
         return new Promise((resolve, reject) => {
             ProblemModel.findOne({id: id}, (err, problem) => {
@@ -78,6 +90,18 @@
                     reject(err);
                 } else {
                     resolve(problem);
+                }
+            });
+        });
+    }
+
+    const searchProblem = function(keywords) {
+        return new Promise((resolve, reject) => {
+            ProblemModel.find({name: new RegExp(keywords,"i")}, (err, problems) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(problems);
                 }
             });
         });
@@ -103,6 +127,8 @@
     module.exports = {
         getProblems,
         addProblem,
-        getProblem
+        getProblem,
+        getProblemsByDiff,
+        searchProblem
     };
 

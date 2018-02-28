@@ -19,7 +19,8 @@ export class EditorComponent implements OnInit {
     'Java': `public class Example {
  public static void main(String[] args) {
      // Type your Java code here
- }`,
+ }
+}`,
     'Python': `class Solution:
    def example():
        # Write your Python code here`
