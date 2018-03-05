@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { DataService } from './services/data/data.service';
 import {CollaborationService} from './services/Collaboration/collaboration.service';
+import { AuthService } from './services/Auth/auth.service';
 
 import {Routing} from './app.routes';
 
@@ -14,6 +15,9 @@ import { ProblemDetailComponent } from './components/problem-detail/problem-deta
 import { NewProblemComponent } from './components/new-problem/new-problem.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EditorComponent } from './components/editor/editor.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { CurserListComponent } from './components/curser-list/curser-list.component';
 
 
 @NgModule({
@@ -23,7 +27,10 @@ import { EditorComponent } from './components/editor/editor.component';
     ProblemDetailComponent,
     NewProblemComponent,
     NavbarComponent,
-    EditorComponent
+    EditorComponent,
+    UserProfileComponent,
+    LoadingComponent,
+    CurserListComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +40,8 @@ import { EditorComponent } from './components/editor/editor.component';
   ],
   providers: [
     DataService,
-    CollaborationService
+    CollaborationService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { COLORS } from '../../../assets/colors';
+import { Curser } from '../../models/curser.model';
 
 declare var io: any;
 declare var ace: any;
 @Injectable()
 export class CollaborationService {
   clientsInfo: Object = {};
+  cursersInfo: Curser[];
   clientNum: number = 0;
   collaborationSocket: any;
   constructor() { }
@@ -34,6 +36,7 @@ export class CollaborationService {
       const x = cursor['row'];
       const y = cursor['column'];
       const changeClientId = cursor['socketId'];
+      
 
       if (changeClientId in this.clientsInfo) {
         session.removeMarker(this.clientsInfo[changeClientId]['marker']);
@@ -49,6 +52,11 @@ export class CollaborationService {
                           width:3px !important;
                         }`;
         document.body.appendChild(css);
+        var newCurser: Curser = Object.assign({
+          id: changeClientId,
+          color: COLORS[this.clientNum]
+        });
+        this.cursersInfo.push(newCurser);
         this.clientNum++;
       }
       const Range = ace.require('ace/range').Range;

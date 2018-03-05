@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
+module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -53,18 +53,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var auth_service_1 = __webpack_require__("../../../../../src/app/services/Auth/auth.service.ts");
 var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+    function AppComponent(auth) {
+        this.auth = auth;
         this.title = 'app';
+        auth.handleAuthentication();
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
             template: __webpack_require__("../../../../../src/app/app.component.html"),
             styles: [__webpack_require__("../../../../../src/app/app.component.css")]
-        })
+        }),
+        __metadata("design:paramtypes", [auth_service_1.AuthService])
     ], AppComponent);
     return AppComponent;
 }());
@@ -91,6 +98,7 @@ var forms_1 = __webpack_require__("../../../forms/esm5/forms.js");
 var http_1 = __webpack_require__("../../../common/esm5/http.js");
 var data_service_1 = __webpack_require__("../../../../../src/app/services/data/data.service.ts");
 var collaboration_service_1 = __webpack_require__("../../../../../src/app/services/Collaboration/collaboration.service.ts");
+var auth_service_1 = __webpack_require__("../../../../../src/app/services/Auth/auth.service.ts");
 var app_routes_1 = __webpack_require__("../../../../../src/app/app.routes.ts");
 var app_component_1 = __webpack_require__("../../../../../src/app/app.component.ts");
 var problem_list_component_1 = __webpack_require__("../../../../../src/app/components/problem-list/problem-list.component.ts");
@@ -98,6 +106,9 @@ var problem_detail_component_1 = __webpack_require__("../../../../../src/app/com
 var new_problem_component_1 = __webpack_require__("../../../../../src/app/components/new-problem/new-problem.component.ts");
 var navbar_component_1 = __webpack_require__("../../../../../src/app/components/navbar/navbar.component.ts");
 var editor_component_1 = __webpack_require__("../../../../../src/app/components/editor/editor.component.ts");
+var user_profile_component_1 = __webpack_require__("../../../../../src/app/components/user-profile/user-profile.component.ts");
+var loading_component_1 = __webpack_require__("../../../../../src/app/components/loading/loading.component.ts");
+var curser_list_component_1 = __webpack_require__("../../../../../src/app/components/curser-list/curser-list.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -109,7 +120,10 @@ var AppModule = /** @class */ (function () {
                 problem_detail_component_1.ProblemDetailComponent,
                 new_problem_component_1.NewProblemComponent,
                 navbar_component_1.NavbarComponent,
-                editor_component_1.EditorComponent
+                editor_component_1.EditorComponent,
+                user_profile_component_1.UserProfileComponent,
+                loading_component_1.LoadingComponent,
+                curser_list_component_1.CurserListComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -119,7 +133,8 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [
                 data_service_1.DataService,
-                collaboration_service_1.CollaborationService
+                collaboration_service_1.CollaborationService,
+                auth_service_1.AuthService
             ],
             bootstrap: [app_component_1.AppComponent]
         })
@@ -140,11 +155,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
 var problem_list_component_1 = __webpack_require__("../../../../../src/app/components/problem-list/problem-list.component.ts");
 var problem_detail_component_1 = __webpack_require__("../../../../../src/app/components/problem-detail/problem-detail.component.ts");
+var loading_component_1 = __webpack_require__("../../../../../src/app/components/loading/loading.component.ts");
+var user_profile_component_1 = __webpack_require__("../../../../../src/app/components/user-profile/user-profile.component.ts");
 var routes = [
     {
         path: '',
         redirectTo: 'problems',
         pathMatch: 'full'
+    },
+    {
+        path: 'profile',
+        component: user_profile_component_1.UserProfileComponent
+    },
+    {
+        path: 'callback',
+        component: loading_component_1.LoadingComponent
     },
     {
         path: 'problems',
@@ -168,6 +193,74 @@ var routes = [
     }
 ];
 exports.Routing = router_1.RouterModule.forRoot(routes);
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/curser-list/curser-list.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/curser-list/curser-list.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\n  <div class=\"col-xs-12 col-md-4\">\n    <div class=\"list-group\">\n        <a class=\"list-group-item\" *ngFor=\"let curser of cursersList\">\n          <strong class=\"title\">{{curser.id}}. {{curser.color}}</strong>\n        </a>\n    </div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/curser-list/curser-list.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var collaboration_service_1 = __webpack_require__("../../../../../src/app/services/Collaboration/collaboration.service.ts");
+var CurserListComponent = /** @class */ (function () {
+    function CurserListComponent(collaboration) {
+        this.collaboration = collaboration;
+    }
+    CurserListComponent.prototype.ngOnInit = function () {
+        this.init();
+        console.log('curser list: ' + this.curserList);
+    };
+    CurserListComponent.prototype.init = function () {
+        this.curserList = this.collaboration.cursersInfo;
+    };
+    CurserListComponent = __decorate([
+        core_1.Component({
+            selector: 'app-curser-list',
+            template: __webpack_require__("../../../../../src/app/components/curser-list/curser-list.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/components/curser-list/curser-list.component.css")]
+        }),
+        __metadata("design:paramtypes", [collaboration_service_1.CollaborationService])
+    ], CurserListComponent);
+    return CurserListComponent;
+}());
+exports.CurserListComponent = CurserListComponent;
 
 
 /***/ }),
@@ -296,6 +389,77 @@ exports.EditorComponent = EditorComponent;
 
 /***/ }),
 
+/***/ "../../../../../src/app/components/loading/loading.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/loading/loading.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"loading\">\n  <img src=\"assets/loading.svg\" alt=\"loading\">\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/loading/loading.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var auth_service_1 = __webpack_require__("../../../../../src/app/services/Auth/auth.service.ts");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var LoadingComponent = /** @class */ (function () {
+    function LoadingComponent(authService, router) {
+        this.authService = authService;
+        this.router = router;
+    }
+    LoadingComponent.prototype.ngOnInit = function () {
+        //this.redirect();
+    };
+    LoadingComponent.prototype.redirect = function () {
+        if (this.authService.isAuthenticated())
+            this.router.navigate(['/problems']);
+    };
+    LoadingComponent = __decorate([
+        core_1.Component({
+            selector: 'app-loading',
+            template: __webpack_require__("../../../../../src/app/components/loading/loading.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/components/loading/loading.component.css")]
+        }),
+        __metadata("design:paramtypes", [auth_service_1.AuthService,
+            router_1.Router])
+    ], LoadingComponent);
+    return LoadingComponent;
+}());
+exports.LoadingComponent = LoadingComponent;
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/components/navbar/navbar.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -317,7 +481,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <nav class=\"navbar navbar-default\">\n    <div class=\"container-fluid\">\n      <!-- Brand and toggle get grouped for better mobile display -->\n      <div class=\"navbar-header\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n          <span class=\"sr-only\">Toggle navigation</span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n      </div>\n  \n      <!-- Collect the nav links, forms, and other content for toggling -->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <!-- <li class=\"active\"><a href=\"#\">Link <span class=\"sr-only\">(current)</span></a></li>\n          <li><a href=\"#\">Favorite</a></li> -->\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Difficulty <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a [routerLink]=\"['/problems']\">All</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a [routerLink]=\"['/problems/difficulty/easy']\">Easy</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/medium']\">Medium</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/hard']\">Hard</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/super']\">Super</a></li>\n            </ul>\n          </li>\n        </ul>\n        <form class=\"navbar-form navbar-left\">\n          <div class=\"form-group\">\n            <input name=\"keywords\" id=\"keywords\" type=\"text\" class=\"form-control\"\n             placeholder=\"Keywords...\"\n             [(ngModel)] = \"keywords\"\n             >\n          </div>\n          <button type=\"submit\" class=\"btn btn-default\" (click)=\"searchProblem()\">Search</button>\n        </form>\n        <!-- <ul class=\"nav navbar-nav navbar-right\">\n          <li><a href=\"#\">Link</a></li>\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a href=\"#\">Action</a></li>\n              <li><a href=\"#\">Another action</a></li>\n              <li><a href=\"#\">Something else here</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a href=\"#\">Log Out</a></li>\n            </ul>\n          </li>\n        </ul> -->\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n  </div>"
+module.exports = "<script type=\"text/javascript\" src=\"node_modules/auth0-js/build/auth0.js\"></script>\n<div class=\"container\">\n    <nav class=\"navbar navbar-default\">\n    <div class=\"container-fluid\">\n      <!-- Brand and toggle get grouped for better mobile display -->\n      <div class=\"navbar-header\">\n        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n          <span class=\"sr-only\">Toggle navigation</span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n          <span class=\"icon-bar\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n      </div>\n  \n      <!-- Collect the nav links, forms, and other content for toggling -->\n      <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <!-- <li class=\"active\"><a href=\"#\">Link <span class=\"sr-only\">(current)</span></a></li>\n          <li><a href=\"#\">Favorite</a></li> -->\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Difficulty <span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a [routerLink]=\"['/problems']\">All</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a [routerLink]=\"['/problems/difficulty/easy']\">Easy</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/medium']\">Medium</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/hard']\">Hard</a></li>\n              <li><a [routerLink]=\"['/problems/difficulty/super']\">Super</a></li>\n            </ul>\n          </li>\n        </ul>\n        <form class=\"navbar-form navbar-left\">\n          <div class=\"form-group\">\n            <input name=\"keywords\" id=\"keywords\" type=\"text\" class=\"form-control\"\n             placeholder=\"Keywords...\"\n             [(ngModel)] = \"keywords\"\n             >\n          </div>\n          <button type=\"submit\" class=\"btn btn-default\" (click)=\"searchProblem()\">Search</button>\n        </form>\n      \n        <ul class=\"nav navbar-nav navbar-right\">\n          <!-- <li><a (click)=\"login()\">Login</a></li> -->\n          <li class=\"dropdown\">\n            <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">{{username}}<span class=\"caret\"></span></a>\n            <ul class=\"dropdown-menu\">\n              <li><a [routerLink]=\"['/profile']\">Profile</a></li>\n              <li *ngIf = \"!authService.isAuthenticated()\"><a (click) = \"login()\">Log in</a></li>\n              <li *ngIf = \"authService.isAuthenticated()\"><a (click) = \"logout()\">Log out</a></li>\n              <!-- <li><a href=\"#\">Something else here</a></li>\n              <li role=\"separator\" class=\"divider\"></li>\n              <li><a href=\"#\">Log Out</a></li> -->\n            </ul>\n          </li>\n        </ul>\n      </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n  </div>"
 
 /***/ }),
 
@@ -338,13 +502,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var auth_service_1 = __webpack_require__("../../../../../src/app/services/Auth/auth.service.ts");
 var NavbarComponent = /** @class */ (function () {
     //router: Router;
-    function NavbarComponent(router) {
+    function NavbarComponent(router, authService) {
         this.router = router;
+        this.authService = authService;
         this.title = "Coder Space";
+        this.username = "user";
     }
     NavbarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.authService.isAuthenticated) {
+            if (this.authService.userProfile) {
+                this.profile = this.authService.userProfile;
+                this.username = this.profile["nickname"];
+            }
+            else {
+                this.authService.getProfile(function (err, profile) {
+                    _this.profile = profile;
+                    _this.username = _this.profile["nickname"];
+                });
+            }
+        }
+        else {
+            this.username = "User";
+        }
     };
     NavbarComponent.prototype.searchProblem = function () {
         //alert(this.keywords);
@@ -354,13 +537,21 @@ var NavbarComponent = /** @class */ (function () {
         else
             this.router.navigate(['/problems']);
     };
+    NavbarComponent.prototype.login = function () {
+        this.authService.login();
+    };
+    NavbarComponent.prototype.logout = function () {
+        this.authService.logout();
+        this.username = "user";
+    };
     NavbarComponent = __decorate([
         core_1.Component({
             selector: 'app-navbar',
             template: __webpack_require__("../../../../../src/app/components/navbar/navbar.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/navbar/navbar.component.css")]
         }),
-        __metadata("design:paramtypes", [router_1.Router])
+        __metadata("design:paramtypes", [router_1.Router,
+            auth_service_1.AuthService])
     ], NavbarComponent);
     return NavbarComponent;
 }());
@@ -466,7 +657,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/problem-detail/problem-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"container\" *ngIf = \"problem\">\n    <div class=\"col-xs-12 col-md-4\">\n      <h2>\n        {{problem.id}}. {{problem.name}}\n      </h2>\n      <p>\n        {{problem.desc}}\n      </p>\n  \n    </div>\n    <div class=\"hidden-xs col-sm-12 col-md-8\">\n      <app-editor></app-editor>\n    </div>\n  </div>"
+module.exports = "<app-navbar></app-navbar>\n<app-curser-list></app-curser-list>\n<div class = \"container\" *ngIf = \"problem\">\n    <div class=\"col-xs-12 col-md-4\">\n      <h2>\n        {{problem.id}}. {{problem.name}}\n      </h2>\n      <p>\n        {{problem.desc}}\n      </p>\n  \n    </div>\n    \n    <div class=\"hidden-xs col-sm-12 col-md-8\">\n      <app-editor></app-editor>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -537,7 +728,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/problem-list/problem-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <app-new-problem></app-new-problem>\n  <div class=\"list-group\">\n    <a class=\"list-group-item\" *ngFor=\"let problem of problems\"\n      [routerLink]=\"['/problems', problem.id]\">\n      <span \n      class=\"{{'pull-left label difficulty diff-' + problem.difficulty.toLocaleLowerCase()}}\">\n        {{problem.difficulty}}\n      </span>\n      <strong class=\"title\">{{problem.id}}. {{problem.name}}</strong>\n    </a>\n  </div>\n</div>\n"
+module.exports = "<app-navbar></app-navbar>\n<div class=\"container\">\n  <app-new-problem></app-new-problem>\n  <div class=\"list-group\">\n    <a class=\"list-group-item\" *ngFor=\"let problem of problems\"\n      [routerLink]=\"['/problems', problem.id]\">\n      <span \n      class=\"{{'pull-left label difficulty diff-' + problem.difficulty.toLocaleLowerCase()}}\">\n        {{problem.difficulty}}\n      </span>\n      <strong class=\"title\">{{problem.id}}. {{problem.name}}</strong>\n    </a>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -603,6 +794,197 @@ exports.ProblemListComponent = ProblemListComponent;
 
 /***/ }),
 
+/***/ "../../../../../src/app/components/user-profile/user-profile.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/user-profile/user-profile.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-navbar></app-navbar>\n<div class=\"panel panel-default profile-area\">\n  <div class=\"panel-heading\">\n    <h3>Profile</h3>\n  </div>\n  <div class=\"panel-body\">\n    <img src=\"{{profile?.picture}}\" class=\"avatar\" alt=\"avatar\">\n    <div>\n      <label><i class=\"glyphicon glyphicon-user\"></i> Nickname</label>\n      <h3 class=\"nickname\">{{ profile?.nickname }}</h3>\n    </div>\n    <pre class=\"full-profile\">{{ profile | json }}</pre>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/user-profile/user-profile.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// src/app/profile/profile.component.ts
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var auth_service_1 = __webpack_require__("../../../../../src/app/services/Auth/auth.service.ts");
+var UserProfileComponent = /** @class */ (function () {
+    function UserProfileComponent(auth) {
+        this.auth = auth;
+    }
+    UserProfileComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //if ( this.auth.isAuthenticated() ) console.log('login successfully.');
+        if (this.auth.userProfile) {
+            this.profile = this.auth.userProfile;
+        }
+        else {
+            //this.getProfile();
+            this.auth.getProfile(function (err, profile) {
+                _this.profile = profile;
+            });
+        }
+    };
+    UserProfileComponent.prototype.getProfile = function () {
+        var _this = this;
+        // this.problems = this.dataService.getProblems();
+        this.auth.getProfiles()
+            .subscribe(function (profile) { return _this.profile = profile; });
+    };
+    UserProfileComponent = __decorate([
+        core_1.Component({
+            selector: 'app-user-profile',
+            template: __webpack_require__("../../../../../src/app/components/user-profile/user-profile.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/components/user-profile/user-profile.component.css")]
+        }),
+        __metadata("design:paramtypes", [auth_service_1.AuthService])
+    ], UserProfileComponent);
+    return UserProfileComponent;
+}());
+exports.UserProfileComponent = UserProfileComponent;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/Auth/auth.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+__webpack_require__("../../../../rxjs/_esm5/add/operator/filter.js");
+var auth0 = __webpack_require__("../../../../auth0-js/src/index.js");
+__webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+var BehaviorSubject_1 = __webpack_require__("../../../../rxjs/_esm5/BehaviorSubject.js");
+var AuthService = /** @class */ (function () {
+    function AuthService(router) {
+        this.router = router;
+        this.auth0 = new auth0.WebAuth({
+            clientID: 'CbrHmOyOxkeFTQjpw3nbHEg5vY4RGR4s',
+            domain: 'wenzx94.auth0.com',
+            responseType: 'token id_token',
+            audience: 'https://wenzx94.auth0.com/userinfo',
+            redirectUri: 'http://localhost:3000/callback',
+            scope: 'openid profile'
+        });
+        this._profileSource = new BehaviorSubject_1.BehaviorSubject([]);
+    }
+    AuthService.prototype.login = function () {
+        this.auth0.authorize();
+    };
+    AuthService.prototype.handleAuthentication = function () {
+        var _this = this;
+        this.auth0.parseHash(function (err, authResult) {
+            if (authResult && authResult.accessToken && authResult.idToken) {
+                _this.setSession(authResult);
+                _this.router.navigate(['/problems']);
+            }
+            else if (err) {
+                _this.router.navigate(['/problems']);
+                console.log(err);
+                alert("Error: " + err.error + ". Check the console for further details.");
+            }
+        });
+    };
+    AuthService.prototype.setSession = function (authResult) {
+        // Set the time that the access token will expire at
+        var expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+        localStorage.setItem('access_token', authResult.accessToken);
+        localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('expires_at', expiresAt);
+    };
+    AuthService.prototype.logout = function () {
+        // Remove tokens and expiry time from localStorage
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('id_token');
+        localStorage.removeItem('expires_at');
+        // Go back to the home route
+        this.router.navigate(['/']);
+    };
+    AuthService.prototype.isAuthenticated = function () {
+        // Check whether the current time is past the
+        // access token's expiry time
+        var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+        return new Date().getTime() < expiresAt;
+    };
+    AuthService.prototype.getProfile = function (cb) {
+        var accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            throw new Error('Access Token must exist to fetch profile');
+        }
+        var self = this;
+        this.auth0.client.userInfo(accessToken, function (err, profile) {
+            if (profile) {
+                self.userProfile = profile;
+            }
+            cb(err, profile);
+        });
+    };
+    AuthService.prototype.getProfiles = function () {
+        var _this = this;
+        // return this.problems;
+        var accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            throw new Error('Access Token must exist to fetch profile');
+        }
+        var self = this;
+        this.auth0.client.userInfo(accessToken).toPromise()
+            .then(function (profile) {
+            _this._profileSource.next(profile);
+        });
+        return this._profileSource.asObservable();
+    };
+    AuthService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [router_1.Router])
+    ], AuthService);
+    return AuthService;
+}());
+exports.AuthService = AuthService;
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/services/Collaboration/collaboration.service.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -657,6 +1039,11 @@ var CollaborationService = /** @class */ (function () {
                 css.type = 'text/css';
                 css.innerHTML = ".editor_cursor_" + changeClientId + "\n                        { \n                          position:absolute;\n                          background:" + colors_1.COLORS[_this.clientNum] + ";\n                          z-index:100;\n                          width:3px !important;\n                        }";
                 document.body.appendChild(css);
+                var newCurser = Object.assign({
+                    id: changeClientId,
+                    color: colors_1.COLORS[_this.clientNum]
+                });
+                _this.cursersInfo.push(newCurser);
                 _this.clientNum++;
             }
             var Range = ace.require('ace/range').Range;
