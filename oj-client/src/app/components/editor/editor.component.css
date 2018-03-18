@@ -1,9 +1,16 @@
 @media screen {
+    .vbox {
+      height: 100%;
+    }
+    .vnav {
+      color:#a7afbd;
+    }
     #editor {
       height: 600px;
+      width: 760px;
     }
     .lang-select {
-      width: 500px;
+      width: 100px;
       margin-right: 10px;
     }
     header .btn {
@@ -21,4 +28,54 @@
       z-index: 40;
       width: 2px !important;
     }
-   }
+    .color0000ff {
+      background-color: #0000ff
+    }
+    .colora52a2a {
+      background-color: #a52a2a
+    }
+    .color00ffff {
+      background-color: #00ffff
+    }
+    .color00008b {
+      background-color: #00008b
+    }
+    .color008b8b {
+      background-color: #008b8b
+    }
+    .colora9a9a9{ background-color: #a9a9a9 }
+    .color006400{ background-color: #006400 }
+    .colorbdb76b{ background-color: #bdb76b }
+    .color8b008b{ background-color: #8b008b }
+    .color556b2f{ background-color: #556b2f }
+    .colorff8c00{ background-color: #ff8c00 }
+    .color9932cc{ background-color: #9932cc }
+    .color8b0000{ background-color: #8b0000 }
+    .colore9967a{ background-color: #e9967a }
+    .color9400d3{ background-color: #9400d3 }
+    .colorff00ff{ background-color: #ff00ff }
+    .colorffd700{ background-color: #ffd700 }
+    .color008000{ background-color: #008000 }
+    .color4b0082{ background-color: #4b0082 }
+    .colorf0e68c{ background-color: #f0e68c }
+    .coloradd8e6{ background-color: #add8e6 }
+    .colore0ffff{ background-color: #e0ffff }
+    .color90ee90{ background-color: #90ee90 }
+    .colord3d3d3{ background-color: #d3d3d3 }
+    .colorffb6c1{ background-color: #ffb6c1 }
+    .colorffffe0{ background-color: #ffffe0 }
+    .color00ff00{ background-color: #00ff00 }
+    .colorff00ff{ background-color: #ff00ff }
+    .color800000{ background-color: #800000 }
+    .color000080{ background-color: #000080 }
+    .color808000{ background-color: #808000 }
+    .colorffa500{ background-color: #ffa500 }
+    .colorffc0cb{ background-color: #ffc0cb }
+    .color800080{ background-color: #800080 }
+    .color800080{ background-color: #800080 }
+    .colorff0000{ background-color: #ff0000 }
+    .colorc0c0c0{ background-color: #c0c0c0 }
+    .colorffffff{ background-color: #ffffff }
+    .colorffff00{ background-color: #ffff00 } 
+    
+  }

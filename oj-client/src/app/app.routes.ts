@@ -3,6 +3,7 @@ import { ProblemListComponent } from './components/problem-list/problem-list.com
 import { ProblemDetailComponent } from './components/problem-detail/problem-detail.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 const routes: Routes = [
     {
@@ -32,7 +33,7 @@ const routes: Routes = [
     },
     {
         path: 'problems/:id',                   //this ":" means id is a variable
-        component: ProblemDetailComponent
+        component: EditorComponent
     },
     
     {

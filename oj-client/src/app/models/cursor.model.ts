@@ -1,4 +1,4 @@
-export class Curser {
+export class Cursor {
     id: string;
     color: string;
 }

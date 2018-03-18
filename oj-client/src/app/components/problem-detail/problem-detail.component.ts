@@ -9,7 +9,7 @@ import { DataService } from '../../services/data/data.service';
   styleUrls: ['./problem-detail.component.css']
 })
 export class ProblemDetailComponent implements OnInit {
-  problem: Problem;
+  problem: Problem = new Problem() ;
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService

@@ -1,48 +1,98 @@
-<section>
-  <header class="editor-header">
-    <select class="form-control pull-left lang-select" name="language"
-     [(ngModel)]="language" (change)="setLanguage(language)">
-     <option *ngFor="let language of languages" [value]="language">
-       {{language}}
-     </option>
-    </select>
-    <!--reset button -->
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-      Reset
-    </button>
+<app-navbar></app-navbar>
+<div>
+<!-- <div class="vbox hidden-xs col-md-1" style="height:100vh;padding-left: 0px;padding-right: 0px; background-color:#4c5566">
+  <ul class="nav nav-pills nav-stacked" style="padding-left: 0px;padding-right: 0px;">
+    <li style="height:70px">
+      <a href="" style="text-align:center;position:relative;color:#a7afbd;font-weight:700;">Problem</a>
+    </li>
+    <li style="height:70px">
+      <a href="" >Problem</a>
+    </li>
+    <li></li>
+  </ul>
+</div> -->
+  <div class="col-xs-12 col-md-4" style="margin-left: 30px;margin-right: 50px;">
+    <h3>{{problem.id}}. {{problem.name}}</h3>
+      <ul class="nav nav-tabs" style="margin-bottom: 20px;">
+          <li role="presentation" class="active"><a data-toggle="tab" href="#discription">Desciption</a></li>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Are you sure</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            You will lose current code in the editor, are you sure?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal"
-            (click)="resetEditor()">Reset</button>
-          </div>
+          <li role="presentation"><a data-toggle="tab" href="#output">Output</a></li>
+          <li role="presentation"><a data-toggle="tab" href="#coders">Coders</a></li>
+        </ul>
+    <div class="tab-content">
+        <div id="discription" class="tab-pane fade in active">
+            <app-problem-detail></app-problem-detail>
         </div>
-      </div>
+        <div id="output" class="tab-pane fade">
+            <p style="color:#92cf5c; font-size:18px">Compiled</p>
+            <strong style="font-weight: bold">Your output</strong>
+            <div class="well well-sm">your output</div>
+        </div>
+        <div id="coders" class="tab-pane fade well well-sm">
+          <div *ngIf="keys.length==0">There is no coder.</div>
+            <ul *ngFor="let key of keys" style="padding-left: 0px;">
+                
+                <li class="list-group-item">
+                  <span class="{{'badge ' + cursorList[key].color}}">:)</span> {{cursorList[key].name}}
+            </li>
+            </ul> 
+        </div>
     </div>
-  </header>
-  <div class="row">
-    <div id="editor">
-    </div>
-  </div><!-- This is the body -->
-  <div class="row">
-    {{output}}
+    <!-- <div class="panel panel-primary">
+        <div class="panel-body" style="background-color: #D3E1EC">
+            <h3 style=" color:#454597; margin-top: 0px;margin-bottom: 0px;">Coders:</h3>
+        </div>
+        <div class="panel-footer">
+            <p *ngIf="keys.length==0">There is no coder...</p>
+            
+        </div>
+      </div> -->
+     
   </div>
-  <footer class="editor-footer">
-      <button type="button" class="btn btn-success pull-right" 
-      (click)="submit()">Submit Solution</button>
-  </footer>
-</section>
+  
+  <div class="hidden-xs col-sm-12 col-md-7 panel panel-default" 
+    style="padding-left: 0px;padding-right: 0px; background-color:#D3E1EC;width:auto">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    You will lose current code in the editor, are you sure?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="resetEditor()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="editor" >
+            </div>
+
+          <!-- This is the body -->
+          
+              <div class="panel-body" style="padding-top: 10px;padding-bottom: 10px;padding-left: 15px;">
+              <select class="form-control pull-left lang-select" name="language"
+              [(ngModel)]="language" (change)="setLanguage(language)">
+              <option *ngFor="let language of languages" [value]="language">
+                {{language}}
+              </option>
+             </select>
+             <!--reset button -->
+             <!-- Button trigger modal -->
+             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+               Reset
+             </button>
+              <button type="button" class="btn btn-success pull-right" 
+              (click)="submit()">Submit Solution</button>
+        </div>
+  </div>
+</div>

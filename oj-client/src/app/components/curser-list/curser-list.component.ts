@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CollaborationService } from '../../services/Collaboration/collaboration.service';
-import { Curser } from '../../models/curser.model';
+import { Cursor } from '../../models/cursor.model';
 
 @Component({
   selector: 'app-curser-list',
@@ -8,7 +8,7 @@ import { Curser } from '../../models/curser.model';
   styleUrls: ['./curser-list.component.css']
 })
 export class CurserListComponent implements OnInit {
-  curserList: Curser[];
+  curserList: Object;
 
   constructor(private collaboration: CollaborationService) { }
 
@@ -18,6 +18,7 @@ export class CurserListComponent implements OnInit {
   }
 
   init(): void {
-    this.curserList = this.collaboration.cursersInfo;
+    // this.collaboration.getCursers()
+    // .subscribe(cursers => this.curserList = cursers);
   }
 }

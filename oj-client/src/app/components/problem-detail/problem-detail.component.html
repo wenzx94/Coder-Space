@@ -1,17 +1,22 @@
-<app-navbar></app-navbar>
-<app-curser-list></app-curser-list>
-<div class = "container" *ngIf = "problem">
-    <div class="col-xs-12 col-md-4">
-      <h2>
+<!-- <app-navbar></app-navbar> -->
+<!-- <app-curser-list></app-curser-list> -->
+<!-- <div *ngIf = "problem"> -->
+    <!-- <div class="col-xs-12 col-md-4"> -->
+      <!-- <h2>
         {{problem.id}}. {{problem.name}}
       </h2>
-      <p>
+      <p style="margin-bottom: 50px;">
         {{problem.desc}}
-      </p>
+      </p> -->
   
-    </div>
+    <!-- </div> -->
     
-    <div class="hidden-xs col-sm-12 col-md-8">
+    <!-- <div class="hidden-xs col-sm-12 col-md-8">
       <app-editor></app-editor>
+    </div> -->
+<!-- </div> -->
+<div class="panel panel-default">
+    <div class="panel-body well well-sm" style="margin-bottom: 0px;">
+        {{problem.desc}}
     </div>
-</div>
+  </div>

@@ -13,7 +13,9 @@ module.exports = function(io) {
         // console.log(message);
         // io.to(socket.id).emit('message', 'hahahahahahahaha from server');
         const sessionId = socket.handshake.query['sessionId'];
+        //const userId = socket["sub"];
         socketIdToSessionId[socket.id] = sessionId;
+        console.log(socket.id + "come in!");
 
         // if (!(sessionId in collaborations)) {
         //     collaborations[sessionId] = {
@@ -63,10 +65,11 @@ module.exports = function(io) {
         });
 
         socket.on('cursorMove', cursor => {
-            console.log('cursorMove' + socketIdToSessionId[socket.id] + ' ' + cursor );
+            console.log('cursorMove in Session ' + socketIdToSessionId[socket.id] + ': ' + cursor );
             cursor = JSON.parse(cursor);
             cursor['socketId'] = socket.id;
             forwardEvent(socket.id, 'cursorMove', JSON.stringify(cursor));
+            //forwardEvent(socket.id, 'addToList', socket.id);
         });
 
         socket.on('restoreBuffer', () => {
